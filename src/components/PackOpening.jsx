@@ -62,7 +62,18 @@ export default function PackOpening({ product, cards, onFinish }) {
       {phase === PHASE.reveal || phase === PHASE.done ? (
         <div className="opening__stage">
           {current && phase === PHASE.reveal ? (
-            <button type="button" className="opening__focus" onClick={revealNext}>
+            <div
+              className="opening__focus"
+              role="button"
+              tabIndex={0}
+              onClick={revealNext}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  revealNext()
+                }
+              }}
+            >
               <div className="opening__rarity" style={{ color: current.foilColor }}>
                 {current.foilLabel}
               </div>
@@ -71,7 +82,7 @@ export default function PackOpening({ product, cards, onFinish }) {
               <span className="opening__tap">
                 {focusIndex < cards.length - 1 ? 'Tap for next card' : 'Tap to finish'}
               </span>
-            </button>
+            </div>
           ) : null}
 
           {phase === PHASE.done ? (

@@ -1,4 +1,4 @@
-import { CARD_POOL } from './cardPool'
+import { BOSS_ORIGINALS, CARD_POOL } from './cardPool'
 import { FOIL_TIERS, PACK_SLOTS, subtypesForFoil } from './foils'
 import { pickWeighted } from './math'
 
@@ -10,6 +10,21 @@ export const STARTER_COINS = 500
 export const CARDS_PER_PACK = 5
 
 export const PACK_PRODUCTS = [
+  {
+    id: 'boss-duo-blister',
+    name: 'Boss Duo Blister',
+    subtitle: '2 exclusive cards · rainbow + cosmos foils',
+    price: 120,
+    accent: '#f0b429',
+    glow: 'rgba(240, 180, 41, 0.55)',
+    cardCount: 2,
+    previewImages: BOSS_ORIGINALS.map((c) => c.image),
+    /** Guaranteed pulls — each card gets a distinct foil */
+    fixedPulls: [
+      { baseId: 'boss1-1', foilId: 'rainbow' },
+      { baseId: 'boss1-2', foilId: 'cosmos' },
+    ],
+  },
   {
     id: 'scarlet-blister',
     name: 'Scarlet Blister',
@@ -59,12 +74,40 @@ function rollFoil(slotWeights, boost = {}) {
   return pickWeighted(weighted).foil
 }
 
+function materializeCard(base, foilId, slot) {
+  const foil = FOIL_TIERS[foilId] ?? FOIL_TIERS.common
+  return {
+    ...base,
+    instanceId: uid(),
+    foilId: foil.id,
+    foilLabel: foil.label,
+    foilColor: foil.color,
+    hasFoil: foil.hasFoil,
+    rarity: foil.rarityAttr,
+    subtypes: subtypesForFoil(foil.id, base.subtypes),
+    supertype: base.subtypes.some((s) => /supporter|item|tool/i.test(s))
+      ? 'trainer'
+      : 'pokémon',
+    slot,
+    obtainedAt: Date.now(),
+  }
+}
+
 export function openPack(product) {
+  if (product?.fixedPulls?.length) {
+    return product.fixedPulls.map((pull, index) => {
+      const base =
+        CARD_POOL.find((c) => c.baseId === pull.baseId) ??
+        BOSS_ORIGINALS.find((c) => c.baseId === pull.baseId) ??
+        CARD_POOL[0]
+      return materializeCard(base, pull.foilId, index + 1)
+    })
+  }
+
   const pool = poolForProduct(product)
   const used = new Set()
-  const cards = PACK_SLOTS.map((slotWeights, index) => {
+  return PACK_SLOTS.map((slotWeights, index) => {
     const foilId = rollFoil(slotWeights, product.boost)
-    const foil = FOIL_TIERS[foilId]
 
     let base
     let attempts = 0
@@ -74,24 +117,8 @@ export function openPack(product) {
     } while (used.has(base.baseId) && attempts < 20)
     used.add(base.baseId)
 
-    return {
-      ...base,
-      instanceId: uid(),
-      foilId,
-      foilLabel: foil.label,
-      foilColor: foil.color,
-      hasFoil: foil.hasFoil,
-      rarity: foil.rarityAttr,
-      subtypes: subtypesForFoil(foilId, base.subtypes),
-      supertype: base.subtypes.some((s) => /supporter|item|tool/i.test(s))
-        ? 'trainer'
-        : 'pokémon',
-      slot: index + 1,
-      obtainedAt: Date.now(),
-    }
+    return materializeCard(base, foilId, index + 1)
   })
-
-  return cards
 }
 
 export function loadCoins() {

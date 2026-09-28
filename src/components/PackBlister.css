@@ -34,6 +34,45 @@
   opacity: 0.95;
 }
 
+.blister__previews {
+  position: absolute;
+  inset: 10% 8% 28%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.blister__preview {
+  position: absolute;
+  width: 46%;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  object-fit: cover;
+  aspect-ratio: 63 / 88;
+}
+
+.blister__preview--1 {
+  left: 8%;
+  top: 8%;
+  transform: rotate(-8deg);
+  z-index: 1;
+}
+
+.blister__preview--2 {
+  right: 8%;
+  top: 18%;
+  transform: rotate(10deg);
+  z-index: 2;
+}
+
+.blister--preview .blister__pack {
+  inset: auto 12% 10%;
+  height: auto;
+  padding: 0.7rem 0.85rem;
+  place-content: center;
+}
+
 .blister__pack {
   position: absolute;
   inset: 14% 18% 18%;
@@ -49,6 +88,7 @@
   box-shadow: 0 0 40px var(--pack-glow);
   color: #f4f1ea;
   padding: 1rem;
+  z-index: 3;
 }
 
 .blister__brand {

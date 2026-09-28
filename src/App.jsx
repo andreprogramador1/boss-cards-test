@@ -11,18 +11,18 @@ import {
   openPack,
   saveCoins,
 } from './lib/pack'
-import { CARD_POOL } from './lib/cardPool'
+import { BOSS_ORIGINALS } from './lib/cardPool'
 import { FOIL_TIERS } from './lib/foils'
 import './App.css'
 
 const DEMO_CARD = {
-  ...CARD_POOL.find((c) => c.baseId === 'swsh1-25') ?? CARD_POOL[0],
-  instanceId: 'demo-victini',
-  foilId: 'cosmos',
-  foilLabel: FOIL_TIERS.cosmos.label,
-  foilColor: FOIL_TIERS.cosmos.color,
+  ...BOSS_ORIGINALS[0],
+  instanceId: 'demo-starhoof',
+  foilId: 'rainbow',
+  foilLabel: FOIL_TIERS.rainbow.label,
+  foilColor: FOIL_TIERS.rainbow.color,
   hasFoil: true,
-  rarity: FOIL_TIERS.cosmos.rarityAttr,
+  rarity: FOIL_TIERS.rainbow.rarityAttr,
   subtypes: ['V'],
   supertype: 'pokémon',
 }
@@ -134,12 +134,12 @@ export default function App() {
                 <p className="hero__eyebrow">Pocket-style blister pulls</p>
                 <h1 className="hero__brand">Boss Cards</h1>
                 <p className="hero__lead">
-                  Tear open 5-card blisters, chase cosmos and rainbow foils, and
-                  build your binder.
+                  Tear open exclusive Boss Duo blisters — Starhoof rainbow and
+                  Nightflare cosmos — then chase more foils in the store.
                 </p>
                 <div className="hero__cta">
                   <button type="button" onClick={() => buyPack(PACK_PRODUCTS[0])}>
-                    Open a blister
+                    Open Boss Duo
                   </button>
                   <button
                     type="button"
@@ -158,7 +158,7 @@ export default function App() {
             <section className="store">
               <div className="store__head">
                 <h2>Blister store</h2>
-                <p>Each pack contains exactly 5 cards with weighted foil slots.</p>
+                <p>Exclusive duo blister up front — classic 5-card packs below.</p>
               </div>
               <div className="store__grid">
                 {PACK_PRODUCTS.map((product) => (

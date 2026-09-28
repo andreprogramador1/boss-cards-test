@@ -1,6 +1,6 @@
 /**
- * Seed pool of real Pokémon TCG card arts (images.pokemontcg.io).
- * Names match the printed cards. Swap this out when custom Boss Cards art is ready.
+ * Seed pool of real Pokémon TCG card arts (images.pokemontcg.io),
+ * plus original Boss Cards artwork.
  */
 function card(setId, number, name, types, subtypes = ['Basic'], setName) {
   return {
@@ -16,7 +16,30 @@ function card(setId, number, name, types, subtypes = ['Basic'], setName) {
   }
 }
 
+function bossCard(number, name, types, imageFile, subtypes = ['Basic']) {
+  const image = `/cards/${imageFile}`
+  return {
+    baseId: `boss1-${number}`,
+    name,
+    number: String(number),
+    set: 'boss1',
+    setName: 'Boss Originals',
+    types,
+    subtypes,
+    image,
+    smallImage: image,
+  }
+}
+
+/** Exclusive Boss Cards originals featured in the Duo Blister */
+export const BOSS_ORIGINALS = [
+  bossCard(1, 'Starhoof', ['Grass', 'Lightning'], 'starhoof.jpg', ['V']),
+  bossCard(2, 'Nightflare', ['Psychic', 'Fire'], 'nightflare.jpg', ['V']),
+]
+
 export const CARD_POOL = [
+  ...BOSS_ORIGINALS,
+
   // Sword & Shield
   card('swsh1', 1, 'Celebi V', ['Grass'], ['V'], 'Sword & Shield'),
   card('swsh1', 19, 'Raboot', ['Fire'], ['Stage 1'], 'Sword & Shield'),
