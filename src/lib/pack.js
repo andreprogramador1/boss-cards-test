@@ -15,9 +15,10 @@ export const PACK_PRODUCTS = [
     name: 'Boss Duo Blister',
     subtitle: '2 exclusive cards · rainbow + cosmos foils',
     price: 120,
-    accent: '#f0b429',
-    glow: 'rgba(240, 180, 41, 0.55)',
+    accent: '#b8f23a',
+    glow: 'rgba(184, 242, 58, 0.45)',
     cardCount: 2,
+    packArt: '/packs/boss-duo.jpg',
     previewImages: BOSS_ORIGINALS.map((c) => c.image),
     /** Guaranteed pulls — each card gets a distinct foil */
     fixedPulls: [

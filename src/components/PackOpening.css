@@ -1,8 +1,9 @@
 .opening {
-  min-height: calc(100vh - 5rem);
+  min-height: calc(100vh - 5.5rem);
   display: grid;
   place-items: center;
-  padding: 0.5rem 1rem 1.5rem;
+  padding: 0.75rem 1rem 1.5rem;
+  box-sizing: border-box;
 }
 
 .opening__focus {
@@ -17,84 +18,485 @@
   max-height: calc(100vh - 6rem);
 }
 
-.opening__pack {
-  position: relative;
-  width: min(260px, 72vw);
-  aspect-ratio: 3 / 4.2;
-  border: 0;
-  border-radius: 16px;
-  cursor: pointer;
-  color: #fff;
-  background:
-    linear-gradient(160deg, color-mix(in srgb, var(--pack-accent) 80%, #fff), #121826 68%);
-  box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+/* —— Tearable booster sachet —— */
+.sachet {
+  width: min(240px, 68vw);
   display: grid;
-  place-content: center;
-  gap: 0.6rem;
-  overflow: hidden;
-  animation: pack-float 3s ease-in-out infinite;
+  gap: 0.65rem;
+  justify-items: center;
+  user-select: none;
+  touch-action: none;
 }
 
-.opening__pack strong {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
+.sachet__hint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
 }
 
-.opening__hint {
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-  opacity: 0.8;
+.sachet__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7.4;
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.55));
 }
 
-.opening__rip {
+.sachet__body {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  transform: translateX(-100%) rotate(12deg);
-  opacity: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: visible;
+  animation: pack-float 3.2s ease-in-out infinite;
 }
 
-.opening__pack.is-tearing {
-  animation: pack-tear 0.9s ease forwards;
+.sachet.is-dragging .sachet__body,
+.sachet.is-tearing .sachet__body {
+  animation: none;
 }
 
-.opening__pack.is-tearing .opening__rip {
-  opacity: 1;
-  animation: rip-slide 0.9s ease forwards;
+/* Heat-sealed zigzag crimps */
+.sachet__crimp {
+  position: relative;
+  z-index: 3;
+  height: 20px;
+  flex-shrink: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f7f8fb 0 2px,
+      #d4dae4 2px 3px,
+      #8f9aab 3px 5px,
+      #e4e8ef 5px 8px,
+      #a7b1c0 8px 9px
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.sachet__crimp--top {
+  clip-path: polygon(
+    0% 100%,
+    0% 45%,
+    2% 0%,
+    4% 45%,
+    6% 0%,
+    8% 45%,
+    10% 0%,
+    12% 45%,
+    14% 0%,
+    16% 45%,
+    18% 0%,
+    20% 45%,
+    22% 0%,
+    24% 45%,
+    26% 0%,
+    28% 45%,
+    30% 0%,
+    32% 45%,
+    34% 0%,
+    36% 45%,
+    38% 0%,
+    40% 45%,
+    42% 0%,
+    44% 45%,
+    46% 0%,
+    48% 45%,
+    50% 0%,
+    52% 45%,
+    54% 0%,
+    56% 45%,
+    58% 0%,
+    60% 45%,
+    62% 0%,
+    64% 45%,
+    66% 0%,
+    68% 45%,
+    70% 0%,
+    72% 45%,
+    74% 0%,
+    76% 45%,
+    78% 0%,
+    80% 45%,
+    82% 0%,
+    84% 45%,
+    86% 0%,
+    88% 45%,
+    90% 0%,
+    92% 45%,
+    94% 0%,
+    96% 45%,
+    98% 0%,
+    100% 45%,
+    100% 100%
+  );
+}
+
+.sachet__crimp--bottom {
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 55%,
+    98% 100%,
+    96% 55%,
+    94% 100%,
+    92% 55%,
+    90% 100%,
+    88% 55%,
+    86% 100%,
+    84% 55%,
+    82% 100%,
+    80% 55%,
+    78% 100%,
+    76% 55%,
+    74% 100%,
+    72% 55%,
+    70% 100%,
+    68% 55%,
+    66% 100%,
+    64% 55%,
+    62% 100%,
+    60% 55%,
+    58% 100%,
+    56% 55%,
+    54% 100%,
+    52% 55%,
+    50% 100%,
+    48% 55%,
+    46% 100%,
+    44% 55%,
+    42% 100%,
+    40% 55%,
+    38% 100%,
+    36% 55%,
+    34% 100%,
+    32% 55%,
+    30% 100%,
+    28% 55%,
+    26% 100%,
+    24% 55%,
+    22% 100%,
+    20% 55%,
+    18% 100%,
+    16% 55%,
+    14% 100%,
+    12% 55%,
+    10% 100%,
+    8% 55%,
+    6% 100%,
+    4% 55%,
+    2% 100%,
+    0% 55%
+  );
+}
+
+.sachet__half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+  background: #1a1030;
+}
+
+.sachet__half--top {
+  top: 0;
+  height: 16%;
+  z-index: 2;
+}
+
+.sachet__half--bottom {
+  top: 16%;
+  bottom: 0;
+  z-index: 1;
+}
+
+.sachet__face {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sachet__art {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #1a1030;
+}
+
+.sachet__face--top .sachet__art {
+  top: 0;
+  height: 625%;
+}
+
+.sachet__face--bottom .sachet__art {
+  top: -19.05%;
+  height: 119.05%;
+}
+
+.sachet__foil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      105deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.18) 38%,
+      rgba(255, 255, 255, 0) 48%,
+      rgba(180, 220, 255, 0.12) 62%,
+      rgba(255, 255, 255, 0) 72%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 11px,
+      rgba(255, 255, 255, 0.03) 11px 12px
+    );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.sachet__sheen {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 18%, rgba(255, 255, 255, 0.22), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 28%);
+  pointer-events: none;
+}
+
+.sachet__badge {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.2rem 0.7rem;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f6c445, #e89a1c);
+  color: #1a1208;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+}
+
+.sachet__label {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 14%;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+}
+
+.sachet__label strong {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sachet__footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 11%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #c62828, #8e1515);
+  color: #fff;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.18);
+}
+
+.sachet__edge {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  width: 10px;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.sachet__edge--left {
+  left: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent);
+}
+
+.sachet__edge--right {
+  right: 0;
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.28), transparent);
+}
+
+.sachet__fallback {
+  position: absolute;
+  inset: 18px 0;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+.sachet__tear-track {
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  top: 12%;
+  height: 52px;
+  z-index: 5;
+  cursor: grab;
+  touch-action: none;
+}
+
+.sachet.is-dragging .sachet__tear-track {
+  cursor: grabbing;
+}
+
+.sachet__perforation {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 0;
+  border-top: 2px dashed rgba(255, 255, 255, 0.65);
+  transform: translateY(-50%);
+  filter: drop-shadow(0 0 6px rgba(184, 242, 58, 0.45));
+}
+
+.sachet__rip {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  height: 3px;
+  max-width: 84%;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fff, var(--pack-accent, #b8f23a));
+  box-shadow:
+    0 0 12px var(--pack-accent, #b8f23a),
+    0 0 2px #fff;
+  pointer-events: none;
+}
+
+.sachet__scissors {
+  position: absolute;
+  top: 50%;
+  width: 54px;
+  height: 54px;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  display: grid;
+  place-items: center;
+  color: #f4f7fb;
+  background:
+    radial-gradient(circle at 35% 30%, #fff, #d9e2ef 55%, #9aa8bc 100%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    0 0 0 4px rgba(184, 242, 58, 0.18);
+  pointer-events: none;
+  transition: box-shadow 0.2s ease;
+  animation: scissors-nudge 1.8s ease-in-out infinite;
+}
+
+.sachet.is-dragging .sachet__scissors,
+.sachet.is-tearing .sachet__scissors {
+  animation: none;
+}
+
+@keyframes scissors-nudge {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-18deg) translateX(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(-12deg) translateX(6px);
+  }
+}
+
+.sachet.is-dragging .sachet__scissors {
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 0 5px rgba(184, 242, 58, 0.35);
+}
+
+.sachet__scissors-svg {
+  width: 30px;
+  height: 30px;
+  color: #2a3344;
+}
+
+.sachet.is-tearing .sachet__half--top {
+  animation: sachet-top-fly 0.78s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.sachet.is-tearing .sachet__half--bottom {
+  animation: sachet-bottom-fly 0.78s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.sachet.is-tearing .sachet__tear-track,
+.sachet.is-tearing .sachet__edge {
+  animation: sachet-fade 0.35s ease forwards;
+  pointer-events: none;
+}
+
+.sachet.is-tearing .sachet__hint {
+  opacity: 0.7;
 }
 
 @keyframes pack-float {
   0%,
   100% {
-    transform: translateY(0) rotate(-2deg);
+    transform: translateY(0) rotate(-1.5deg);
   }
   50% {
-    transform: translateY(-10px) rotate(2deg);
+    transform: translateY(-8px) rotate(1.5deg);
   }
 }
 
-@keyframes pack-tear {
+@keyframes sachet-top-fly {
   0% {
-    transform: scale(1) rotate(-2deg);
-  }
-  40% {
-    transform: scale(1.05) rotate(3deg);
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
   }
   100% {
-    transform: scale(0.2) rotate(18deg);
+    transform: translateY(-120%) translateX(-18%) rotate(-18deg);
     opacity: 0;
   }
 }
 
-@keyframes rip-slide {
-  from {
-    transform: translateX(-120%) rotate(12deg);
+@keyframes sachet-bottom-fly {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
   }
+  100% {
+    transform: translateY(90%) translateX(14%) rotate(12deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes sachet-fade {
   to {
-    transform: translateX(120%) rotate(12deg);
+    opacity: 0;
   }
 }
 

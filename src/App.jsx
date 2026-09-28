@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import PackBlister from './components/PackBlister'
 import PackOpening from './components/PackOpening'
 import Collection from './components/Collection'
+import Market from './components/Market'
 import HoloCard from './components/HoloCard'
 import {
   PACK_PRODUCTS,
@@ -11,6 +12,7 @@ import {
   openPack,
   saveCoins,
 } from './lib/pack'
+import { loadListings } from './lib/market'
 import { BOSS_ORIGINALS } from './lib/cardPool'
 import { FOIL_TIERS } from './lib/foils'
 import './App.css'
@@ -31,18 +33,21 @@ const VIEWS = {
   store: 'store',
   opening: 'opening',
   collection: 'collection',
+  market: 'market',
 }
 
 export default function App() {
   const [view, setView] = useState(VIEWS.store)
   const [coins, setCoins] = useState(STARTER_SAFE)
   const [collection, setCollection] = useState([])
+  const [listings, setListings] = useState([])
   const [session, setSession] = useState(null)
   const [toast, setToast] = useState('')
 
   useEffect(() => {
     setCoins(loadCoins())
     setCollection(loadCollection())
+    setListings(loadListings())
   }, [])
 
   useEffect(() => {
@@ -76,6 +81,11 @@ export default function App() {
     setToast('Cards added to your binder')
   }
 
+  const onMarketUpdate = ({ collection: nextCollection, listings: nextListings }) => {
+    setCollection(nextCollection)
+    setListings(nextListings)
+  }
+
   const showcase = collection.find((c) => c.hasFoil) ?? collection[0] ?? DEMO_CARD
 
   return (
@@ -106,6 +116,14 @@ export default function App() {
             Binder
             <span>{collection.length}</span>
           </button>
+          <button
+            type="button"
+            className={view === VIEWS.market ? 'is-active' : ''}
+            onClick={() => setView(VIEWS.market)}
+          >
+            Market
+            <span>{listings.length}</span>
+          </button>
         </nav>
 
         <div className="topbar__coins" title="Coins">
@@ -134,8 +152,9 @@ export default function App() {
                 <p className="hero__eyebrow">Pocket-style blister pulls</p>
                 <h1 className="hero__brand">Boss Cards</h1>
                 <p className="hero__lead">
-                  Tear open exclusive Boss Duo blisters — Starhoof rainbow and
-                  Nightflare cosmos — then chase more foils in the store.
+                  Tear open exclusive Boss Duo blisters — Boss roupa lily
+                  rainbow and Boss roupa replay cosmos — then chase more foils
+                  in the store.
                 </p>
                 <div className="hero__cta">
                   <button type="button" onClick={() => buyPack(PACK_PRODUCTS[0])}>
@@ -144,9 +163,9 @@ export default function App() {
                   <button
                     type="button"
                     className="ghost"
-                    onClick={() => setView(VIEWS.collection)}
+                    onClick={() => setView(VIEWS.market)}
                   >
-                    View binder
+                    Trade market
                   </button>
                 </div>
               </div>
@@ -183,6 +202,15 @@ export default function App() {
         ) : null}
 
         {view === VIEWS.collection ? <Collection cards={collection} /> : null}
+
+        {view === VIEWS.market ? (
+          <Market
+            collection={collection}
+            listings={listings}
+            onUpdate={onMarketUpdate}
+            onToast={setToast}
+          />
+        ) : null}
       </main>
 
       {toast ? <div className="toast">{toast}</div> : null}

@@ -33,8 +33,8 @@ function bossCard(number, name, types, imageFile, subtypes = ['Basic']) {
 
 /** Exclusive Boss Cards originals featured in the Duo Blister */
 export const BOSS_ORIGINALS = [
-  bossCard(1, 'Starhoof', ['Grass', 'Lightning'], 'starhoof.jpg', ['V']),
-  bossCard(2, 'Nightflare', ['Psychic', 'Fire'], 'nightflare.jpg', ['V']),
+  bossCard(1, 'Boss roupa lily', ['Grass', 'Lightning'], 'starhoof.jpg', ['V']),
+  bossCard(2, 'Boss roupa replay', ['Psychic', 'Fire'], 'nightflare.jpg', ['V']),
 ]
 
 export const CARD_POOL = [
