@@ -1,0 +1,55 @@
+.holo-card {
+  width: 100%;
+  max-width: var(--holo-w, 220px);
+  margin: 0 auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.holo-card--sm {
+  --holo-w: 110px;
+}
+
+.holo-card--md {
+  --holo-w: 200px;
+}
+
+.holo-card--lg {
+  --holo-w: 280px;
+}
+
+.holo-card--xl {
+  --holo-w: min(72vw, 340px);
+}
+
+.holo-card .card__translater {
+  width: 100%;
+}
+
+.holo-card.is-flipped .card__rotator {
+  transform: rotateY(180deg) rotateX(var(--rotate-y));
+}
+
+.holo-card .card__front img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #1a2332;
+}
+
+.holo-card.loading .card__front {
+  opacity: 0.35;
+}
+
+/* Soft placeholder frame when using PokeAPI sprites */
+.holo-card[data-set='pokeapi'] .card__front {
+  background:
+    linear-gradient(160deg, #1e3a5f, #0f1c2e 60%),
+    #0f1c2e;
+}
+
+.holo-card[data-set='pokeapi'] .card__front img {
+  object-fit: contain;
+  padding: 12% 10% 18%;
+  background: transparent;
+}

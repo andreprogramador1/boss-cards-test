@@ -1,0 +1,152 @@
+.collection {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.collection--empty {
+  min-height: 50vh;
+  place-content: center;
+  text-align: center;
+  color: var(--muted);
+}
+
+.collection--empty h2 {
+  margin: 0 0 0.5rem;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+.collection__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.collection__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.collection__head p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
+.collection__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.collection__filters button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.collection__filters button span {
+  opacity: 0.65;
+  margin-left: 0.25rem;
+}
+
+.collection__filters button.is-active {
+  background: rgba(240, 180, 41, 0.18);
+  border-color: rgba(240, 180, 41, 0.45);
+  color: #f0b429;
+}
+
+.collection__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem 0.75rem;
+}
+
+.collection__item {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: center;
+  padding: 0;
+}
+
+.collection__foil {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.collection__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.collection__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(6, 10, 18, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.collection__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+  width: min(420px, 100%);
+  animation: modal-in 0.35s ease;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.collection__info {
+  text-align: center;
+}
+
+.collection__info h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.collection__info p {
+  margin: 0.35rem 0;
+}
+
+.collection__set {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.collection__info button {
+  margin-top: 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.3rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+}

@@ -1,0 +1,200 @@
+.opening {
+  min-height: calc(100vh - 5rem);
+  display: grid;
+  place-items: center;
+  padding: 0.5rem 1rem 1.5rem;
+}
+
+.opening__focus {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+  animation: card-pop 0.55s cubic-bezier(0.2, 0.9, 0.2, 1);
+  max-height: calc(100vh - 6rem);
+}
+
+.opening__pack {
+  position: relative;
+  width: min(260px, 72vw);
+  aspect-ratio: 3 / 4.2;
+  border: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  color: #fff;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--pack-accent) 80%, #fff), #121826 68%);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  display: grid;
+  place-content: center;
+  gap: 0.6rem;
+  overflow: hidden;
+  animation: pack-float 3s ease-in-out infinite;
+}
+
+.opening__pack strong {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.opening__hint {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+
+.opening__rip {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-100%) rotate(12deg);
+  opacity: 0;
+}
+
+.opening__pack.is-tearing {
+  animation: pack-tear 0.9s ease forwards;
+}
+
+.opening__pack.is-tearing .opening__rip {
+  opacity: 1;
+  animation: rip-slide 0.9s ease forwards;
+}
+
+@keyframes pack-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes pack-tear {
+  0% {
+    transform: scale(1) rotate(-2deg);
+  }
+  40% {
+    transform: scale(1.05) rotate(3deg);
+  }
+  100% {
+    transform: scale(0.2) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rip-slide {
+  from {
+    transform: translateX(-120%) rotate(12deg);
+  }
+  to {
+    transform: translateX(120%) rotate(12deg);
+  }
+}
+
+.opening__stage {
+  width: min(920px, 100%);
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+}
+
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.opening__rarity {
+  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  text-shadow: 0 0 18px currentColor;
+}
+
+.opening__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.opening__tap {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.opening__dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.opening__dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.opening__dots span.is-on {
+  transform: scale(1.25);
+}
+
+.opening__summary {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  gap: 1.25rem;
+  animation: card-pop 0.45s ease;
+}
+
+.opening__summary h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.opening__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (max-width: 720px) {
+  .opening__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.opening__slot {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.opening__done {
+  justify-self: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.6rem;
+  background: linear-gradient(90deg, #f0b429, #f7d070);
+  color: #1a1408;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(240, 180, 41, 0.35);
+}
